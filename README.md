@@ -1,9 +1,9 @@
 #SpringAOP.Demo - 2015
 ==================================
 
-*Simple Console Application to demonstrater Spring AOP features*
+*Simple Console Application to demonstrate Spring AOP features*
 
-## FEATURES 
+### FEATURES 
 
 - Retry Advice after x attempts.
-- ConsoleAround Advice.
+- ConsoleLoggingAroundAdvice Advice.
