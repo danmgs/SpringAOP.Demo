@@ -1,0 +1,43 @@
+﻿<objects xmlns="http://www.springframework.net"
+         xmlns:aop="http://www.springframework.net/aop">
+
+  <object id="serviceTarget" type="SpringAOP.Demo.Business.Service, SpringAOP.Demo">
+  </object>
+
+  <!--<import resource="assembly://SpringAOP.Demo/SpringAOP.Demo/SpringLoggingAOP.xml"/>-->
+
+  <object id="MyServiceWithAdvice"
+      type="Spring.Aop.Framework.ProxyFactoryObject, Spring.Aop">
+    <property name="proxyInterfaces" value="SpringAOP.Demo.Business.IService"/>
+    <property name="target" ref="serviceTarget"/>
+    <property name="interceptorNames">
+      <list>
+        <value>MyConsoleLoggingAroundAdvice</value>
+        <value>MyExceptionHandlingAdvice</value>
+      </list>
+    </property>
+  </object>
+
+  <object id="exceptionHandlingAdviceTarget" type="Spring.Aspects.RetryAdvice, Spring.Aop">
+    <property name="retryExpression" value="on exception name NotImplementedException retry 3x delay 1s"/>
+  </object>
+
+  <object id="MyExceptionHandlingAdvice" type="Spring.Aop.Support.RegularExpressionMethodPointcutAdvisor">
+    <property name="pattern" value="TrySomethingWithFailure"/>
+    <property name="advice">
+      <ref local="exceptionHandlingAdviceTarget"/>
+    </property>
+  </object>
+
+
+  <!--<object id="MyConsoleLoggingAroundAdvice"
+    type="SpringAOP.Demo.Advice.ConsoleLoggingAroundAdvice, SpringAOP.Demo"/>-->
+
+  <object id="MyConsoleLoggingAroundAdvice" type="Spring.Aop.Support.RegularExpressionMethodPointcutAdvisor">
+    <property name="pattern" value="DoSomething"/>
+    <property name="advice">
+      <object type="SpringAOP.Demo.Advice.ConsoleLoggingAroundAdvice, SpringAOP.Demo"/>
+    </property>
+  </object>
+
+</objects>

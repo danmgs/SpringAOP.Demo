@@ -1,0 +1,27 @@
+﻿<objects xmlns="http://www.springframework.net"
+         xmlns:aop="http://www.springframework.net/aop">
+
+  <!-- Configuration for how to log -->
+  <!--Spring.Aspects.Logging.SimpleLoggingAdvice, Spring.Aop-->
+  <object id="MyConsoleLoggingAroundAdvice"
+            type="SpringAOP.Demo.Advice.ConsoleLoggingAroundAdvice"/>
+
+  <!-- Configuration for where to log -->
+  <object id="MyCustomAdvisor"
+    type="Spring.Aop.Support.RegularExpressionMethodPointcutAdvisor, Spring.Aop">
+    <property name="advice">
+      <ref local="MyConsoleLoggingAroundAdvice"/>
+    </property>
+    <property name="patterns">
+      <list>
+        <value>SpringAOP.Demo.*</value>
+        <!--<value>ConsoleApplication1.Service.DoSomething</value>-->
+        <!-- Log Only SavePerson -->
+      </list>
+    </property>
+  </object>
+
+  <!-- Every Spring Object is a proxy -->
+  <object id="DefaultProxyCreator" type="Spring.Aop.Framework.AutoProxy.DefaultAdvisorAutoProxyCreator, Spring.Aop" />
+
+</objects>
